@@ -25,6 +25,8 @@ public class Twitterminal {
 
 	static Map<String, AccessToken> user = new HashMap<String, AccessToken>();
 
+	static String Prefix = "";
+
 	public static void main(String... args) {
 		twitter.setOAuthConsumer("tl1bcFsYlX2mqfFowTAkZiGnh", "ra8BrrfwwPqFIMfJPn2bp3lYwgQdbvbdqHrhJdKZsOe8SSPPIE");
 		System.out.println("Twitterminal Started.");
@@ -39,7 +41,17 @@ public class Twitterminal {
 			try {
 				System.out.print("> ");
 				com = scan.nextLine();
+				if(!com.toUpperCase().startsWith("TOGGLE"))com = Prefix + com;
 				a = com.split(" ");
+				if (a[0].equalsIgnoreCase("TOGGLE")) {
+					if (a[1].equalsIgnoreCase("clear")) {
+						Prefix = "";
+						System.out.println("削除しました");
+					} else {
+						Prefix = a[1] + " ";
+						System.out.println("設定しました");
+					}
+				}
 				switch (a[0].toUpperCase()) {
 				case "CONFIG":
 					if (a[1].equalsIgnoreCase("ADD")) {
@@ -96,14 +108,10 @@ public class Twitterminal {
 					}
 					break;
 				case "TWEET":
-					try {
-						String s = "";
-						for(int i = 1; i < a.length; i++) s = s + a[i];
-						twitter.updateStatus(s);
-					} catch (Exception e) {
-						// e.printStackTrace();
-						System.out.println("Over 140 Charactors");
-					}
+					String s = "";
+					for (int i = 1; i < a.length; i++)
+						s = s + " " + a[i];
+					twitter.updateStatus(s);
 					break;
 				case "SET":
 					if (user.containsKey(a[1])) {
@@ -166,7 +174,7 @@ public class Twitterminal {
 		br.close();
 	}
 
-	public static String get_path() {
+	private static String get_path() {
 		String cp = System.getProperty("java.class.path");
 		String fs = System.getProperty("file.separator");
 		String acp = (new File(cp)).getAbsolutePath();
