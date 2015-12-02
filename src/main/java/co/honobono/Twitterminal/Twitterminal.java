@@ -120,6 +120,8 @@ public class Twitterminal {
 						System.out.println("Not Registered");
 					}
 					break;
+				case "END":
+				case "STOP":
 				case "QUIT":
 				case "EXIT":
 					saveConfig();
